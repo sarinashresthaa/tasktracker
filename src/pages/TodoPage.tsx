@@ -7,7 +7,7 @@ const TodoPage = () => {
   // const {data}=useGetAllTodoApi()
   // const{data:id} = useGetTodoById(5)
   return (
-    <div className="">
+    <div>
       {/* {data?.data.map((item)=>(
     <div className="border">
         <h1>{item.id} </h1>

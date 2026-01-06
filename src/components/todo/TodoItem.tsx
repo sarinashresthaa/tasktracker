@@ -7,13 +7,14 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   return (
-    <div>
-      <h1>{todo.id}</h1>
-      <h1>{todo.title}</h1>
-      <h1>{formatDate(todo.createdAt)}</h1>
-      <h1>{formatDate(todo.dueDate)}</h1>
-      <h1>{todo.status}</h1>
-    </div>
+    <tr className="border-b hover:bg-blue-50 cursor-pointer">
+      <td className="p-3 text-sm text-gray-700">{todo.id}</td>
+      <td className="p-3 text-sm text-gray-700">{todo.title}</td>
+      <td className="p-3 text-sm text-gray-700">{todo.createdAt && formatDate(todo.createdAt)}</td>
+      <td className="p-3 text-sm text-gray-700">{todo.dueDate && formatDate(todo.dueDate)}</td>
+      <td className="p-3 text-sm text-gray-700">{todo.status}</td>
+      <td className="p-3 text-sm text-gray-700"> </td>
+    </tr>
   );
 };
 

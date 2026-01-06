@@ -3,6 +3,7 @@ import { useCreateTodo } from "../../hooks/useTodos";
 
 const TodoForm = () => {
   const [inputValue, setInputValue] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const createTodo = useCreateTodo();
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -16,6 +17,7 @@ const TodoForm = () => {
 
     if (!inputValue) return;
     setInputValue("");
+    setDueDate("");
   };
 
   return (
@@ -27,8 +29,8 @@ const TodoForm = () => {
         onChange={(e) => setInputValue(e.target.value)}
         className=" border p-2 rounded "
       />
-      <h1>Due Date:</h1>
-      <input type="date" name="" id="" className="border p-2 rounded" />
+      <h1 className="font-medium">Due Date:</h1>
+      <input type="date" value={dueDate} onChange={(e)=>setDueDate(e.target.value)} className="border p-2 rounded" />
 
       <button
         type="submit"
