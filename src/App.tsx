@@ -1,11 +1,11 @@
-import To from "./components/To"
+import TodoPage from "./pages/TodoPage";
 
 const App = () => {
   return (
-    <div>
-      <To />
-    </div>
-  )
-}
+    <>
+      <TodoPage />
+    </>
+  );
+};
 
-export default App
+export default App;

@@ -1,0 +1,41 @@
+import { useState } from "react";
+import { useCreateTodo } from "../../hooks/useTodos";
+
+const TodoForm = () => {
+  const [inputValue, setInputValue] = useState("");
+  const createTodo = useCreateTodo();
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createTodo.mutate({
+      title: inputValue,
+      status: "pending",
+      dueDate: new Date().toISOString(),
+    });
+
+    if (!inputValue) return;
+    setInputValue("");
+  };
+
+  return (
+    <form onSubmit={handleFormSubmit} className="flex gap-4">
+      <input
+        type="text"
+        placeholder="Add a new task..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        className=" border p-2 rounded"
+      />
+
+      <button
+        type="submit"
+        className="border bg-green-500 p-2 rounded text-white"
+      >
+        Add Todo
+      </button>
+    </form>
+  );
+};
+
+export default TodoForm;
