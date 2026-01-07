@@ -1,34 +1,41 @@
 import { useGetAllTodoApi } from "../../hooks/useTodos";
+import { Spinner } from "../ui/spinner";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
-  const { data } = useGetAllTodoApi();
+  const { data, isLoading } = useGetAllTodoApi();
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Spinner className="size-8 text-green-500" />
+      </div>
+    );
   return (
-    <div className="border border-gray-300 m-6 shadow-md rounded">
+    <div className="border border-gray-300 m-6 shadow-md ">
       <table className="w-full">
-        <thead className="bg-red-300">
+        <thead className="bg-emerald-600">
           <tr>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               ID
             </th>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               Title
             </th>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               Created At
             </th>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               Due Date
             </th>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               Status
             </th>
-            <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b ">
+            <th className="p-3 text-left text-sm font-semibold text-white border-b ">
               Action
             </th>
           </tr>
         </thead>
-        <tbody className="bg-blue-100">
+        <tbody className="bg-white">
           {data?.data.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}

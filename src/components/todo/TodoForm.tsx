@@ -5,21 +5,21 @@ import { Spinner } from "../ui/spinner";
 const TodoForm = () => {
   const [inputValue, setInputValue] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const createTodo = useCreateTodo();
+  const { mutate, isPending } = useCreateTodo();
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!inputValue) return;
 
     // Check if input is empty FIRST
     if (!inputValue.trim()) return;
-    
-    createTodo.mutate({
+
+    mutate({
       title: inputValue,
       status: "pending",
       dueDate: dueDate,
     });
 
-    if (!inputValue) return;
     setInputValue("");
     setDueDate("");
   };
@@ -34,7 +34,7 @@ const TodoForm = () => {
         placeholder="Add a new task..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className=" border p-2 rounded "
+        className=" border py-2 rounded px-12"
       />
       <h1 className="font-medium">Due Date:</h1>
       <input
@@ -43,12 +43,12 @@ const TodoForm = () => {
         onChange={(e) => setDueDate(e.target.value)}
         className="border p-2 rounded"
       />
-
+      {isPending && <Spinner className="w-10 h-10 text-emerald-500" />}
       <button
         type="submit"
-        className="border bg-green-500 p-2 rounded text-white"
+        className="border bg-emerald-600 p-2 rounded text-white"
       >
-        <Spinner />
+        Add task
       </button>
     </form>
   );
