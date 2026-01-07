@@ -31,7 +31,7 @@ const TodoList = () => {
         <tbody className="bg-blue-100">
           {data?.data.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
-          ))}{" "}
+          ))}
         </tbody>
       </table>
     </div>

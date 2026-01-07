@@ -1,3 +1,4 @@
+import { BsThreeDotsVertical } from "react-icons/bs";
 import type { ITask } from "../../types/todo.types";
 import { formatDate } from "../../utils/formatDate";
 
@@ -13,7 +14,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       <td className="p-3 text-sm text-gray-700">{todo.createdAt && formatDate(todo.createdAt)}</td>
       <td className="p-3 text-sm text-gray-700">{todo.dueDate && formatDate(todo.dueDate)}</td>
       <td className="p-3 text-sm text-gray-700">{todo.status}</td>
-      <td className="p-3 text-sm text-gray-700"> </td>
+      <td className="p-3 text-sm text-gray-700"><BsThreeDotsVertical /> </td>
     </tr>
   );
 };
