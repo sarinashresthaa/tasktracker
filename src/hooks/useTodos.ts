@@ -15,7 +15,7 @@ export const useGetTodoById = (id: string | number) => {
   return useQuery({
     queryKey: ["todo", id],
     queryFn: () => TodoApi.getTodoById(id),
-    select: (res) => res.data
+    select: (res) => res.data,
   });
 };
 
@@ -37,8 +37,9 @@ export const useUpdateTodo = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string | number; data: ITaskPayload }) =>
       TodoApi.updateTodo(id, data),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo", variables.id] });
     },
   });
 };
@@ -48,7 +49,7 @@ export const useDeleteTodo = () => {
   return useMutation({
     mutationFn: TodoApi.deleteTodo,
     onSuccess: (_, id) => {
-        //invalidate all data 
+      //invalidate all data
       queryClient.invalidateQueries({ queryKey: ["todo"] });
 
       //invalidate specific data by id

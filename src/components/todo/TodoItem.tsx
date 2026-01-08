@@ -10,75 +10,134 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { FaEye, FaRegEdit } from "react-icons/fa";
-import { useDeleteTodo } from "@/hooks/useTodos";
+import { useDeleteTodo, useUpdateTodo } from "@/hooks/useTodos";
 import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { useEffect, useState } from "react";
 
 interface TodoItemProps {
   todo: ITask;
-  onEdit?: (todo: ITask) => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onEdit }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+
+  const{mutateAsync: updateTodo} = useUpdateTodo();
   const { mutateAsync: deleteTodo } = useDeleteTodo();
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
-  // const handleEdit = () => {
-  //   if (onEdit) {
-  //     onEdit(todo);
-  //   }
-  // };
+  //for update
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(todo.title);
+  const [dueDate, setDueDate] = useState(todo.dueDate);
+  const [status, setStatus] = useState(todo.status);
+
+
+  const handleUpdate = () =>{
+    updateTodo({id:todo.id, data:{title,dueDate, status}})
+    setOpen(false);
+  }
+
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete "${todo.title}"?`)) {
       deleteTodo(todo.id);
     }
   };
 
- 
   return (
-    <tr className="border-b hover:bg-gray-100 hover:text-emerald-600 cursor-pointer">
-      <td className="p-3 text-sm ">{todo.id}</td>
-      <td className="p-3 text-sm capitalize">{todo.title}</td>
-      <td className="p-3 text-sm ">
-        {todo.createdAt && formatDate(todo.createdAt)}
-      </td>
-      <td className="p-3 text-sm ">
-        {todo.dueDate && formatDate(todo.dueDate)}
-      </td>
-      <td className="p-3 text-sm ">{todo.status}</td>
-      <td className="p-3 text-sm ">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <BsThreeDotsVertical />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-36" align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={()=>navigate(`/viewdetails/${todo.id}`)}
-              >
-                View Details
-                <DropdownMenuShortcut>
-                  <FaEye className="text-green-500" />
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem >
-                Update
-                <DropdownMenuShortcut>
-                  <FaRegEdit className="text-blue-500" />
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDelete} variant="destructive">
-                Delete
-                <DropdownMenuShortcut>
-                  <Trash2 className="text-red-500" />
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </td>
-    </tr>
+    <>
+      <tr className="border-b hover:bg-gray-100 hover:text-emerald-600 cursor-pointer">
+        <td className="p-3 text-sm ">{todo.id}</td>
+        <td className="p-3 text-sm capitalize">{todo.title}</td>
+        <td className="p-3 text-sm ">
+          {todo.createdAt && formatDate(todo.createdAt)}
+        </td>
+        <td className="p-3 text-sm ">
+          {todo.dueDate && formatDate(todo.dueDate)}
+        </td>
+        <td className="p-3 text-sm ">{todo.status}</td>
+        <td className="p-3 text-sm ">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <BsThreeDotsVertical />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-36" align="end">
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  onClick={() => navigate(`/viewdetails/${todo.id}`)}
+                >
+                  View Details
+                  <DropdownMenuShortcut>
+                    <FaEye className="text-green-500" />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+
+                {/* edit */}
+                <DropdownMenuItem onClick={() => setOpen(true)}>
+                  Update
+                  <DropdownMenuShortcut>
+                    <FaRegEdit className="text-blue-500" />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={handleDelete} variant="destructive">
+                  Delete
+                  <DropdownMenuShortcut>
+                    <Trash2 className="text-red-500" />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </td>
+      </tr>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Update Todo</DialogTitle>
+          </DialogHeader>
+
+          <div className="grid gap-4">
+            <div>
+              <Label>Title</Label>
+              <Input value={title}
+              onChange={(e)=> setTitle(e.target.value)} />
+            </div>
+          
+            <div>
+              <Label>Due date</Label>
+              <Input type="date" 
+              value={dueDate}
+              onChange={(e)=> setDueDate(e.target.value)} />
+            </div>
+
+            <div>
+              <Label>Status</Label>
+              <Input value={status} onChange={(e)=> setStatus(e.target.value)} />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="button" onClick={handleUpdate}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
