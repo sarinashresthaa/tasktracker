@@ -23,30 +23,32 @@ const TodoForm = () => {
     setInputValue("");
     setDueDate("");
   };
+  
 
   return (
     <form
       onSubmit={handleFormSubmit}
-      className="flex gap-4 m-8 justify-center items-center"
+      className="flex gap-4 m-8 items-center w-full "
     >
       <input
         type="text"
         placeholder="Add a new task..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className=" border py-2 rounded px-12"
+        className=" border-3 focus:border-emerald-500 p-2 w-1/3 rounded"
       />
-      <h1 className="font-medium">Due Date:</h1>
+      <h1 className="font-medium text-gray-800 ">Due Date:</h1>
       <input
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
-        className="border p-2 rounded"
+        className="border-3 p-2 rounded w-1/4 focus:border-emerald-500 "
+        required
       />
       {isPending && <Spinner className="w-10 h-10 text-emerald-500" />}
       <button
         type="submit"
-        className="border bg-emerald-600 p-2 rounded text-white"
+        className="border bg-emerald-600 p-2 rounded text-white "
       >
         Add task
       </button>

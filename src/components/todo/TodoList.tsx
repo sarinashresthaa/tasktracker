@@ -11,7 +11,7 @@ const TodoList = () => {
       </div>
     );
   return (
-    <div className="border border-gray-300 m-6 shadow-md ">
+    <div className="border border-gray-300 m-6 shadow-md rounded-md overflow-hidden">
       <table className="w-full">
         <thead className="bg-emerald-600">
           <tr>

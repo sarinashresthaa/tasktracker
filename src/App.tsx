@@ -1,9 +1,12 @@
-import TodoPage from "./pages/TodoPage";
+import { BrowserRouter } from "react-router";
+import Router from "./router/routes";
 
 const App = () => {
   return (
     <>
-      <TodoPage />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </>
   );
 };
