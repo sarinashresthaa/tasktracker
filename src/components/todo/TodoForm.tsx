@@ -35,6 +35,7 @@ const TodoForm = () => {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         className=" border-3 focus:border-emerald-500 p-2 w-full rounded"
+        
       />
       <div className="flex flex-col w-full lg:flex-row lg:items-center ">
         <h1 className="font-medium text-gray-800 text-sm lg:text-base mb-1 lg:w-1/3 xl:w-1/6 w-full">
