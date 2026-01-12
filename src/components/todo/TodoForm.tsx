@@ -44,7 +44,7 @@ const TodoForm = () => {
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="border-3 p-2 rounded w-full lg:w- focus:border-emerald-500 "
+          className="border-3 p-2 rounded w-full focus:border-emerald-500 "
           required
         />
       </div>
