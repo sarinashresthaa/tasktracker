@@ -104,13 +104,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-100">
           <DialogHeader>
-            <DialogTitle>Update Todo</DialogTitle>
+            <DialogTitle className="text-emerald-700">Update Todo</DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div>
               <Label>Title</Label>
-              <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} className="selection:bg-emerald-500"/>
             </div>
 
             <div>
@@ -137,9 +137,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" className="border-emerald-500 hover:bg-emerald-50 text-emerald-700">Cancel</Button>
             </DialogClose>
-            <Button type="button" onClick={handleUpdate}>
+            <Button type="button" onClick={handleUpdate} className="bg-emerald-700 hover:bg-emerald-800">
               Save
             </Button>
           </DialogFooter>
