@@ -16,10 +16,10 @@ const ViewDetails = () => {
       </div>
     );
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="p-2 max-w-3xl mx-auto">
+    <div className="min-h-screen py-4 px-2 ">
+      <div className="lg:p-2 max-w-3xl mx-auto">
         <button
-          className="text-gray-700 flex gap-4 justify-center items-center cursor-pointer p-4"
+          className="text-gray-700 flex gap-4 justify-center items-center cursor-pointer p-2 lg:p-4 mb-4 "
           onClick={() => navigate("/")}
         >
           <FaArrowLeft size={16} /> <span>Back to list</span>
@@ -27,7 +27,7 @@ const ViewDetails = () => {
 
         <div className="border rounded-xl shadow-sm bg-white overflow-hidden">
           <div className="border-b-2 bg-emerald-50 p-4">
-            <h1 className="capitalize text-3xl text-emerald-700 font-bold leading-tight">
+            <h1 className="capitalize text-2xl lg:text-3xl text-emerald-700 font-bold leading-tight">
               {data?.title}
             </h1>
           </div>
@@ -37,7 +37,7 @@ const ViewDetails = () => {
               <Clock className="w-5 h-5 text-gray-600" />
             </div>
             <div className="grid">
-              <span className="font-semibold text-gray-800 text-lg ">
+              <span className="font-semibold text-gray-800 lg:text-lg ">
                 Created
               </span>
               <span> {data?.createdAt && formatDate(data?.createdAt)}</span>
@@ -49,7 +49,7 @@ const ViewDetails = () => {
               <Calendar className="w-5 h-5 text-gray-600" />
             </div>
             <div className="grid">
-              <span className="font-semibold text-gray-800 text-lg ">
+              <span className="font-semibold text-gray-800 lg:text-lg ">
                 Due date
               </span>
               <span>{data?.dueDate && formatDate(data?.dueDate)}</span>
@@ -61,19 +61,22 @@ const ViewDetails = () => {
               <CheckCircle className="w-5 h-5 text-gray-600" />
             </div>
             <div className="grid">
-              <span className="font-semibold text-gray-800 text-lg">
+              <span className="font-semibold text-gray-800 lg:text-lg">
                 Status
               </span>
               <span> {data?.status}</span>
             </div>
           </div>
 
-           <div className="pt-6 px-6 text-gray-700 mb-2">
-                <p className="font-semibold text-gray-800 text-lg">Description</p>
-                <p>
-                 Hey! You need to {data?.title} till {data?.dueDate} and your status is {data?.status}.
-                </p>
-              </div>
+          <div className="pt-6 px-6 text-gray-700 mb-2">
+            <p className="font-semibold text-gray-800 lg:text-lg">
+              Description
+            </p>
+            <p className="text-sm lg:text-base">
+              Hey! You need to {data?.title} till {data?.dueDate} and your
+              status is {data?.status}.
+            </p>
+          </div>
         </div>
       </div>
     </div>

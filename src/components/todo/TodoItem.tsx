@@ -24,15 +24,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface TodoItemProps {
   todo: ITask;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
-
-  const{mutateAsync: updateTodo} = useUpdateTodo();
+  const { mutateAsync: updateTodo } = useUpdateTodo();
   const { mutateAsync: deleteTodo } = useDeleteTodo();
 
   const navigate = useNavigate();
@@ -43,11 +42,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const [dueDate, setDueDate] = useState(todo.dueDate);
   const [status, setStatus] = useState(todo.status);
 
-
-  const handleUpdate = () =>{
-    updateTodo({id:todo.id, data:{title,dueDate, status}})
+  const handleUpdate = () => {
+    updateTodo({ id: todo.id, data: { title, dueDate, status } });
     setOpen(false);
-  }
+  };
 
   const handleDelete = () => {
     if (window.confirm(`Are you sure you want to delete "${todo.title}"?`)) {
@@ -58,16 +56,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   return (
     <>
       <tr className="border-b hover:bg-gray-100 hover:text-emerald-600 cursor-pointer">
-        <td className="p-3 text-sm ">{todo.id}</td>
-        <td className="p-3 text-sm capitalize">{todo.title}</td>
-        <td className="p-3 text-sm ">
+        <td className="p-3 text-sm lg:text-base ">{todo.id}</td>
+        <td className="p-3 text-sm lg:text-base capitalize">{todo.title}</td>
+        <td className="p-3 text-sm lg:text-base ">
           {todo.createdAt && formatDate(todo.createdAt)}
         </td>
-        <td className="p-3 text-sm ">
+        <td className="p-3 text-sm lg:text-base ">
           {todo.dueDate && formatDate(todo.dueDate)}
         </td>
-        <td className="p-3 text-sm ">{todo.status}</td>
-        <td className="p-3 text-sm ">
+        <td className="p-3 text-sm lg:text-base ">{todo.status}</td>
+        <td className="p-3 text-sm lg:text-base ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <BsThreeDotsVertical />
@@ -104,7 +102,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       </tr>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="sm:max-w-100">
           <DialogHeader>
             <DialogTitle>Update Todo</DialogTitle>
           </DialogHeader>
@@ -112,20 +110,28 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           <div className="grid gap-4">
             <div>
               <Label>Title</Label>
-              <Input value={title}
-              onChange={(e)=> setTitle(e.target.value)} />
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
-          
+
             <div>
               <Label>Due date</Label>
-              <Input type="date" 
-              value={dueDate}
-              onChange={(e)=> setDueDate(e.target.value)} />
+              <Input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
             </div>
 
             <div>
               <Label>Status</Label>
-              <Input value={status} onChange={(e)=> setStatus(e.target.value)} />
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="pending">pending</option>
+                <option value="in progress">in progress</option>
+                <option value="completed">conpleted</option>
+              </select>
             </div>
           </div>
 
@@ -133,7 +139,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="button" onClick={handleUpdate}>Save</Button>
+            <Button type="button" onClick={handleUpdate}>
+              Save
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
