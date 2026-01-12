@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCreateTodo } from "../../hooks/useTodos";
 import { Spinner } from "../ui/spinner";
+import { formatDate } from "@/utils/formatDate";
 
 const TodoForm = () => {
   const [inputValue, setInputValue] = useState("");
@@ -9,7 +10,6 @@ const TodoForm = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue) return;
 
     // Check if input is empty FIRST
     if (!inputValue.trim()) return;
@@ -47,6 +47,7 @@ const TodoForm = () => {
           onChange={(e) => setDueDate(e.target.value)}
           className="border-3 p-2 rounded w-full focus:border-emerald-500 "
           required
+          min={formatDate( new Date())}
         />
       </div>
       <button

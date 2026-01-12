@@ -77,7 +77,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           : "text-gray-700 bg-gray-100"
       }`}
           >
+           <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="pending">pending</option>
+                <option value="in progress">in progress</option>
+                <option value="completed">completed</option>
             {todo.status}
+              </select>
           </span>
         </td>
 
