@@ -1,11 +1,13 @@
+import Filter from "@/components/todo/Filter";
 import TodoForm from "../components/todo/TodoForm";
-import TodoList from "../components/todo/TodoList";
+import TodoTable from "../components/todo/TodoTable";
 
 const TodoPage = () => {
   return (
     <div>
       <TodoForm />
-      <TodoList />
+      <Filter/>
+      <TodoTable/>
     </div>
   );
 };

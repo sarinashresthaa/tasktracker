@@ -35,7 +35,7 @@ export const useCreateTodo = () => {
 export const useUpdateTodo = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string | number; data: ITaskPayload }) =>
+    mutationFn: ({ id, data }: { id: string | number; data: Partial<ITaskPayload> }) =>
       TodoApi.updateTodo(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });

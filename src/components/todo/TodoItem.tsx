@@ -25,13 +25,15 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useState } from "react";
+import { Spinner } from "../ui/spinner";
 
 interface TodoItemProps {
   todo: ITask;
+  index: number;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
-  const { mutateAsync: updateTodo } = useUpdateTodo();
+const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
+  const { mutateAsync: updateTodo, isPending } = useUpdateTodo();
   const { mutateAsync: deleteTodo } = useDeleteTodo();
 
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   return (
     <>
       <tr className="border-b hover:bg-gray-100 hover:text-emerald-600 cursor-pointer">
-        <td className="p-3 text-sm lg:text-base ">{todo.id}</td>
+        <td className="p-3 text-sm lg:text-base ">{index}</td>
         <td className="p-3 text-sm lg:text-base capitalize">{todo.title}</td>
         <td className="p-3 text-sm lg:text-base ">
           {todo.createdAt && formatDate(todo.createdAt)}
@@ -65,8 +67,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           {todo.dueDate && formatDate(todo.dueDate)}
         </td>
         <td className="p-3 text-sm lg:text-base">
-          <span
-            className={`px-3 py-1 rounded-full font-medium capitalize whitespace-nowrap
+          {isPending ? (
+            <div className="flex items-center justify-center">
+            <Spinner className="size-4 text-green-500" />
+            </div>
+          ) : (
+            <span
+              className={`px-3 py-1 rounded-full font-medium capitalize whitespace-nowrap
       ${
         todo.status === "pending"
           ? "text-yellow-700 bg-yellow-100"
@@ -74,19 +81,26 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           ? "text-blue-700 bg-blue-100"
           : todo.status === "completed"
           ? "text-green-700 bg-green-100"
+          : todo.status === "cancelled"
+          ? "text-red-700 bg-red-100"
           : "text-gray-700 bg-gray-100"
       }`}
-          >
-           <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
+            >
+              <select
+                value={todo.status}
+                onChange={(e) => {
+                  updateTodo({ id: todo.id, data: { status: e.target.value } });
+                }}
+                disabled={todo.status === "completed"}
               >
                 <option value="pending">pending</option>
                 <option value="in progress">in progress</option>
                 <option value="completed">completed</option>
-            {todo.status}
+                <option value="cancelled">cancelled</option>
+                {todo.status}
               </select>
-          </span>
+            </span>
+          )}
         </td>
 
         <td className="p-3 text-sm lg:text-base ">
@@ -147,6 +161,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
+                min={formatDate(new Date())}
               />
             </div>
 
@@ -155,10 +170,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
+                disabled={todo.status === "completed"}
               >
                 <option value="pending">pending</option>
                 <option value="in progress">in progress</option>
                 <option value="completed">completed</option>
+                <option value="cancelled">cancelled</option>
               </select>
             </div>
           </div>

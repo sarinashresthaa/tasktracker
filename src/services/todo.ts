@@ -19,7 +19,7 @@ export const TodoApi = {
   },
 
   //update
-  updateTodo: async (id: string | number, data: ITaskPayload) => {
+  updateTodo: async (id: string | number, data: Partial<ITaskPayload>) => {
     return await axios.patch<ITask>(endpoints.update(id), data);
   },
 

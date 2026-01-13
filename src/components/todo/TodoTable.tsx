@@ -2,7 +2,7 @@ import { useGetAllTodoApi } from "../../hooks/useTodos";
 import { Spinner } from "../ui/spinner";
 import TodoItem from "./TodoItem";
 
-const TodoList = () => {
+const TodoTable = () => {
   const { data, isLoading } = useGetAllTodoApi();
   if (isLoading)
     return (
@@ -37,8 +37,8 @@ const TodoList = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {data?.data.map((todo) => (
-              <TodoItem key={todo.id} todo={todo} />
+            {data?.data.map((todo, i) => (
+              <TodoItem key={todo.id} index={i + 1} todo={todo} />
             ))}
           </tbody>
         </table>
@@ -47,4 +47,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default TodoTable;
