@@ -3,10 +3,11 @@ import TodoForm from "../components/todo/TodoForm";
 import TodoTable from "../components/todo/TodoTable";
 
 const TodoPage = () => {
+  
   return (
     <div>
-      <TodoForm />
-      <Filter/>
+        <TodoForm />
+      <Filter />
       <TodoTable/>
     </div>
   );
