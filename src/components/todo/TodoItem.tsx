@@ -69,11 +69,11 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
         <td className="p-3 text-sm lg:text-base">
           {isPending ? (
             <div className="flex items-center justify-center">
-            <Spinner className="size-4 text-green-500" />
+              <Spinner className="size-4 text-green-500" />
             </div>
           ) : (
             <span
-              className={`px-3 py-1 rounded-full font-medium capitalize whitespace-nowrap
+              className={`px-3 py-1 rounded-full font-medium  whitespace-nowrap
       ${
         todo.status === "pending"
           ? "text-yellow-700 bg-yellow-100"
@@ -86,19 +86,25 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
           : "text-gray-700 bg-gray-100"
       }`}
             >
-              <select
-                value={todo.status}
-                onChange={(e) => {
-                  updateTodo({ id: todo.id, data: { status: e.target.value } });
-                }}
-                disabled={todo.status === "completed"}
-              >
-                <option value="pending">pending</option>
-                <option value="in progress">in progress</option>
-                <option value="completed">completed</option>
-                <option value="cancelled">cancelled</option>
-                {todo.status}
-              </select>
+              {todo.status === "completed" ? (
+                <>completed</>
+              ) : (
+                <select
+                  value={todo.status}
+                  onChange={(e) => {
+                    updateTodo({
+                      id: todo.id,
+                      data: { status: e.target.value },
+                    });
+                  }}
+                >
+                  <option value="pending">pending</option>
+                  <option value="in progress">in progress</option>
+                  <option value="completed">completed</option>
+                  <option value="cancelled">cancelled</option>
+                  {todo.status}
+                </select>
+              )}
             </span>
           )}
         </td>
@@ -180,7 +186,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="flex md:gap-4">
             <DialogClose asChild>
               <Button
                 variant="outline"
