@@ -15,7 +15,7 @@ const Searching = ({ searchValue, setSearchValue }: SearchingProps) => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search by title, or status..."
-          className="focus:outline-none w-full"
+          className="focus:outline-none w-full md:tracking-wide"
         />
       </div>
     </div>

@@ -28,7 +28,7 @@ const TodoTable = () => {
   };
 
   const { data, isLoading } = useGetAllTodoApi();
-  
+
   const filteredTodos = data?.data.filter((todo) => {
     const matchSearch =
       todo.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -54,7 +54,7 @@ const TodoTable = () => {
 
     return sort ? dec - acc : acc - dec;
   });
-  
+
   if (isLoading)
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -62,15 +62,19 @@ const TodoTable = () => {
       </div>
     );
 
-
   return (
     <>
-      <div className="w-full flex flex-col lg:flex-row">
-        <Searching searchValue={searchValue} setSearchValue={setSearchValue} />
-        <div className=" mx-6 my-4 lg:w-1/3">
+      <div className="w-full flex flex-col md:flex-row justify-between">
+        <div className=" w-full">
+          <Searching
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+        </div>
+        <div className=" mx-6 flex items-center md:w-1/5">
           <button
-            className="border bg-emerald-600 p-2 rounded text-white 
-          w-full sm:w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/5 font-semibold hover:bg-emerald-700 cursor-pointer"
+            className=" bg-emerald-600 p-3 md:p-4 rounded text-white 
+          w-full font-semibold hover:bg-emerald-700 cursor-pointer"
             onClick={() => setShowForm(!showForm)}
           >
             Add Todo
