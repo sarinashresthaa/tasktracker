@@ -6,10 +6,12 @@ import Searching from "./Search";
 import Filter from "./Filter";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import TodoForm from "./TodoForm";
+import Paginated from "./Paginated";
 
 const TodoTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   //for filter
   const [showFilters, setShowFilters] = useState(false);
@@ -48,12 +50,22 @@ const TodoTable = () => {
   //for sorting createdAt
   const [sort, setSort] = useState(true);
 
-  const sortedTodos = filteredTodos?.slice()?.sort((a, b) => {
-    const acc = new Date(a.createdAt).getTime();
-    const dec = new Date(b.createdAt).getTime();
+  const sortedTodos =
+    filteredTodos?.slice()?.sort((a, b) => {
+      const acc = new Date(a.createdAt).getTime();
+      const dec = new Date(b.createdAt).getTime();
 
-    return sort ? dec - acc : acc - dec;
-  });
+      return sort ? dec - acc : acc - dec;
+    }) || [];
+    
+  const dataPerPage = 5;
+  const lastIndex = currentPage * dataPerPage;
+  const firstIndex = lastIndex - dataPerPage;
+  
+  const currentData = sortedTodos.slice(firstIndex,lastIndex);
+  console.log("currentData",currentData)
+  const totalPages = Math.ceil(sortedTodos?.length / dataPerPage);
+  console.log("totalPages", totalPages);
 
   if (isLoading)
     return (
@@ -120,13 +132,19 @@ const TodoTable = () => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {sortedTodos?.map((todo, i) => (
+              {currentData?.map((todo, i) => (
                 <TodoItem key={todo.id} index={i + 1} todo={todo} />
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      <Paginated
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        
+      />
     </>
   );
 };
