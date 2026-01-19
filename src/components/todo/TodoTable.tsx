@@ -143,7 +143,6 @@ const TodoTable = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
-        
       />
     </>
   );

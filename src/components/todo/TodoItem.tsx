@@ -26,6 +26,16 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
+import { AlertDialog } from "@radix-ui/react-alert-dialog";
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 interface TodoItemProps {
   todo: ITask;
@@ -43,16 +53,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
   const [title, setTitle] = useState(todo.title);
   const [dueDate, setDueDate] = useState(todo.dueDate);
   const [status, setStatus] = useState(todo.status);
+  //for delete
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const handleUpdate = () => {
     updateTodo({ id: todo.id, data: { title, dueDate, status } });
     setOpen(false);
-  };
-
-  const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete "${todo.title}"?`)) {
-      deleteTodo(todo.id);
-    }
   };
 
   return (
@@ -78,12 +84,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
         todo.status === "pending"
           ? "text-yellow-700 bg-yellow-100"
           : todo.status === "in progress"
-          ? "text-blue-700 bg-blue-100"
-          : todo.status === "completed"
-          ? "text-green-700 bg-green-100"
-          : todo.status === "cancelled"
-          ? "text-red-700 bg-red-100"
-          : "text-gray-700 bg-gray-100"
+            ? "text-blue-700 bg-blue-100"
+            : todo.status === "completed"
+              ? "text-green-700 bg-green-100"
+              : todo.status === "cancelled"
+                ? "text-red-700 bg-red-100"
+                : "text-gray-700 bg-gray-100"
       }`}
             >
               {todo.status === "completed" ? (
@@ -133,7 +139,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={handleDelete} variant="destructive">
+                <DropdownMenuItem
+                  onClick={() => setDeleteOpen(true)}
+                  variant="destructive"
+                >
                   Delete
                   <DropdownMenuShortcut>
                     <Trash2 className="text-red-500" />
@@ -206,6 +215,27 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
         </DialogContent>
       </Dialog>
 
+      {/* for delete alert dialog */}
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete{" "}
+              {todo.title}.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteTodo(todo.id)}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

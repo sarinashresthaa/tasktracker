@@ -20,7 +20,7 @@ const Paginated = ({
   const totalPagesData = Array(totalPages).fill(null);
 
   return (
-    <Pagination>
+    <Pagination className="mt-12 cursor-default">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
