@@ -57,13 +57,13 @@ const TodoTable = () => {
 
       return sort ? dec - acc : acc - dec;
     }) || [];
-    
+
   const dataPerPage = 5;
   const lastIndex = currentPage * dataPerPage;
   const firstIndex = lastIndex - dataPerPage;
-  
-  const currentData = sortedTodos.slice(firstIndex,lastIndex);
-  console.log("currentData",currentData)
+
+  const currentData = sortedTodos.slice(firstIndex, lastIndex);
+  console.log("currentData", currentData);
   const totalPages = Math.ceil(sortedTodos?.length / dataPerPage);
   console.log("totalPages", totalPages);
 
@@ -113,11 +113,12 @@ const TodoTable = () => {
                   Title
                 </th>
                 <th className="p-3 text-left text-sm lg:text-base font-semibold text-white border-b ">
-                  <div className="flex items-center gap-1">
+                  <div
+                    className="flex items-center gap-1 cursor-default"
+                    onClick={() => setSort(!sort)}
+                  >
                     <span>Created At</span>
-                    <button onClick={() => setSort(!sort)}>
-                      {sort ? <ChevronUp /> : <ChevronDown />}
-                    </button>
+                    <button>{sort ? <ChevronUp /> : <ChevronDown />}</button>
                   </div>
                 </th>
                 <th className="p-3 text-left text-sm lg:text-base font-semibold text-white border-b ">
